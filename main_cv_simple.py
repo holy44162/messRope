@@ -50,6 +50,7 @@ class MessRopeRoot(Screen):
 
     def on_size(self, *args):
         self.font_scaling = min(Window.width/WINDOW_MIN_WIDTH, Window.height/WINDOW_MIN_HEIGHT)
+        self.ids.holyLabel.text = '[color=ffff00]changed[/color]'
 
     def showcase_boxlayout(self, layout):
         pass
