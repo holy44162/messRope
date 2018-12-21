@@ -18,7 +18,9 @@ class KivyCamera(Image):
 
         video_files_path = './test1.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
-        self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 25)
+        self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 15)
+        self.readFrequency = 30
+        self.readCount = 0
 
     # def start(self, capture, fps=30):
     #     self.capture = capture
@@ -29,6 +31,7 @@ class KivyCamera(Image):
     #     self.capture = None
 
     def update(self, dt):
+        self.readCount += 1
         return_value, frame = self.capture.read()
         if return_value:
             texture = self.texture
@@ -38,6 +41,13 @@ class KivyCamera(Image):
                 texture.flip_vertical()
             texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
             self.canvas.ask_update()
+            if (self.readCount % self.readFrequency) == 0:
+                with open('./data_1.txt') as fp1:
+                    line1 = '[color=ffff00]' + fp1.readline().rstrip('\n') + '[/color]'
+                    App.get_running_app().root.ids.holyLabel1.text = line1
+                with open('./data_2.txt') as fp2:
+                    line2 = '[color=ffff00]' + fp2.readline().rstrip('\n') + '[/color]'
+                    App.get_running_app().root.ids.holyLabel2.text = line2
         else:
             self.capture.set(0, 0)
             # Clock.unschedule(self.clockEvent)
@@ -50,7 +60,7 @@ class MessRopeRoot(Screen):
 
     def on_size(self, *args):
         self.font_scaling = min(Window.width/WINDOW_MIN_WIDTH, Window.height/WINDOW_MIN_HEIGHT)
-        self.ids.holyLabel.text = '[color=ffff00]changed[/color]'
+        # self.ids.holyLabel.text = '[color=ffff00]changed[/color]'
 
     def showcase_boxlayout(self, layout):
         pass
