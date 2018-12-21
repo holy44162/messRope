@@ -43,11 +43,19 @@ class KivyCamera(Image):
             self.canvas.ask_update()
             if (self.readCount % self.readFrequency) == 0:
                 with open('./data_1.txt') as fp1:
-                    line1 = '[color=ffff00]' + fp1.readline().rstrip('\n') + '[/color]'
+                    tagFirst = fp1.readline().rstrip('\n')
+                    line1 = '[color=ffff00]' + tagFirst + '[/color]'
                     App.get_running_app().root.ids.holyLabel1.text = line1
                 with open('./data_2.txt') as fp2:
-                    line2 = '[color=ffff00]' + fp2.readline().rstrip('\n') + '[/color]'
+                    tagSecond = fp2.readline().rstrip('\n')
+                    line2 = '[color=ffff00]' + tagSecond + '[/color]'
                     App.get_running_app().root.ids.holyLabel2.text = line2
+                if int(tagFirst) == 1 or int(tagSecond) == 1:
+                    App.get_running_app().root.ids.holyLabelMess.text = \
+                    '[b][color=ff0000]乱绳[/color][/b]'
+                else:
+                    App.get_running_app().root.ids.holyLabelMess.text = \
+                    '[b][color=00ff00]正常[/color][/b]'
         else:
             self.capture.set(0, 0)
             # Clock.unschedule(self.clockEvent)
