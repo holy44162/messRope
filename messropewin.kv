@@ -24,34 +24,43 @@ MessRopeRoot:
                             size_hint: 1, .05
                             font_name: 'Adobe Kaiti Std.otf'
                             halign: 'center'
-                            # valign: 'top'
-                            # text:
-                            #     '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
-                            # # text:
-                            # #     """
-                            # #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                            # #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
-                            # #     """
-                            # markup: True
-                            # # font_size: '50'
-                            # font_size: sp(root.font_scaling*40)
-                        Label:
-                            size_hint: 1, .1
-                            font_name: 'Adobe Kaiti Std.otf'
-                            halign: 'center'
-                            # text:
-                            #     '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+                            valign: 'center'
                             text:
-                                """
-                                [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                                [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
-                                """
+                                '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
+                            #     """
                             markup: True
                             # font_size: '50'
-                            font_size: sp(root.font_scaling*39)
+                            font_size: sp(root.font_scaling*30)
+                            # canvas:
+                            #     Color:
+                            #         rgba: 1, 0, 0, .5
+                            #     Rectangle:
+                            #         pos: self.pos
+                            #         size: self.size
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'bottom'
+                            text:
+                                '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*20)
                         KivyCamera:
                             id: qrcam
                             size_hint: 1, .9
+                            allow_stretch: True
+                            keep_ratio: False
                         # Label:
                         #     size_hint: 1, .1
                         #     font_name: 'Adobe Kaiti Std.otf'
@@ -94,15 +103,32 @@ MessRopeRoot:
                                 ('[color=ffff00]0[/color]')
                             markup: True
                             font_size: sp(root.font_scaling*15)
-                        Label:
-                            id: holyLabelMess
+                        # Label:
+                        #     id: holyLabelMess
+                        #     size_hint: 1, .8
+                        #     font_name: 'Adobe Kaiti Std.otf'
+                        #     text:
+                        #         ('[b][color=ff0000]正常[/color][/b]')
+                        #     markup: True
+                        #     # font_size: '55'
+                        #     font_size: sp(root.font_scaling*55)
+                        #     # canvas:
+                        #     #     Color:
+                        #     #         rgba: 1, 0, 0, .5
+                        #     #     Rectangle:
+                        #     #         pos: self.pos
+                        #     #         size: self.size
+                        DemoEffect:
+                            id: holyEffect
                             size_hint: 1, .8
-                            font_name: 'Adobe Kaiti Std.otf'
-                            text:
-                                ('[b][color=ff0000]正常[/color][/b]')
-                            markup: True
-                            # font_size: '55'
-                            font_size: sp(root.font_scaling*55)
+                            effects: []
+                            Label:
+                                id: holyLabelMess
+                                font_name: 'Adobe Kaiti Std.otf'
+                                text:
+                                    ('[b][color=ff0000]正常[/color][/b]')
+                                markup: True
+                                font_size: sp(root.font_scaling*55)
                 # FloatLayout:
                 #     canvas:
                 #         Color:
@@ -137,17 +163,47 @@ MessRopeRoot:
                         orientation: 'vertical'
                         size_hint: .75, 1
                         Label:
-                            size_hint: 1, .1
+                            size_hint: 1, .05
                             font_name: 'Adobe Kaiti Std.otf'
                             halign: 'center'
+                            valign: 'center'
                             text:
-                                """
-                                [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                                [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
-                                """
+                                '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
+                            #     """
                             markup: True
                             # font_size: '50'
-                            font_size: sp(root.font_scaling*31)
+                            font_size: sp(root.font_scaling*30)
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'bottom'
+                            text:
+                                '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*20)
+                        # Label:
+                        #     size_hint: 1, .1
+                        #     font_name: 'Adobe Kaiti Std.otf'
+                        #     halign: 'center'
+                        #     text:
+                        #         """
+                        #         [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                        #         [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
+                        #         """
+                        #     markup: True
+                        #     # font_size: '50'
+                        #     font_size: sp(root.font_scaling*31)
                         Video:
                             size_hint: 1, .81
                             id: myvideoRight
@@ -155,6 +211,8 @@ MessRopeRoot:
                             allow_stretch: True
                             state: 'play'
                             options: {'eos': 'loop'}
+                            allow_stretch: True
+                            keep_ratio: False
                         CBoxLayout:
                             size_hint: 1, .09
                             Button:

@@ -8,9 +8,28 @@ from kivy.lang import Builder
 from kivy.properties import NumericProperty
 import numpy as np
 import cv2
+from kivy.uix.effectwidget import EffectWidget, EffectBase
 
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
+
+# The effect string is glsl code defining an effect function.
+effect_string = '''
+vec4 effect(vec4 color, sampler2D texture, vec2 tex_coords, vec2 coords)
+{
+    // Note that time is a uniform variable that is automatically
+    // provided to all effects.
+    float red = color.x * abs(sin(time*2.0));
+    float green = color.y;  // No change
+    float blue = color.z * (1.0 - abs(sin(time*2.0)));
+    return vec4(red, green, blue, color.w);
+}
+'''
+
+class DemoEffect(EffectWidget):
+    def __init__(self, *args, **kwargs):
+        self.effect_reference = EffectBase(glsl=effect_string)
+        super(DemoEffect, self).__init__(*args, **kwargs)
 
 class KivyCamera(Image):
 
@@ -74,6 +93,10 @@ class KivyCamera(Image):
             if self.messTag1 == 1 or self.messTag2 == 1:
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=ff0000]乱绳[/color][/b]'
+                App.get_running_app().root.ids.holyEffect.effects = \
+                [App.get_running_app().root.ids.holyEffect.effect_reference]
+                # App.get_running_app().root.ids.holyLabelMess.font_size = \
+                # App.get_running_app().root.font_scaling*60
             else:
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=00ff00]正常[/color][/b]'
