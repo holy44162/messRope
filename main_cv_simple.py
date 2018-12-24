@@ -36,7 +36,7 @@ class KivyCamera(Image):
     def __init__(self, capture = None, **kwargs):
         super(KivyCamera, self).__init__(**kwargs)
 
-        video_files_path = './test1.mp4'
+        video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
         self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 15)
         self.readFrequency = 30
