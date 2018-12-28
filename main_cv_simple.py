@@ -10,6 +10,8 @@ import numpy as np
 import cv2
 from kivy.uix.effectwidget import EffectWidget, EffectBase
 
+import matlab.engine
+
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
 
@@ -35,6 +37,9 @@ class KivyCamera(Image):
 
     def __init__(self, capture = None, **kwargs):
         super(KivyCamera, self).__init__(**kwargs)
+
+        self.eng = App.get_running_app().future.result()
+        self.eng.addpath('m:/files/files/phd/functions/messRopeFunctions', nargout=0)
 
         video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
@@ -112,6 +117,9 @@ class KivyCamera(Image):
             self.capture.set(0, 0)
             # Clock.unschedule(self.clockEvent)
             print(self.capture)
+            # self.eng.simple(nargout=0)
+            # tf = self.eng.isprime(37)
+            # print(tf)
             # self.capture = None
 
 class MessRopeRoot(Screen):
@@ -140,6 +148,8 @@ class MessRopeRoot(Screen):
 
 
 class MessRopeApp(App):
+
+    future = matlab.engine.start_matlab(async=True)
 
     def build(self):
         Window.minimum_width = WINDOW_MIN_WIDTH
