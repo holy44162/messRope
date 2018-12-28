@@ -41,8 +41,21 @@ class KivyCamera(Image):
         self.eng = App.get_running_app().future.result()
         self.eng.addpath('m:/files/files/phd/functions/messRopeFunctions', nargout=0)
 
+        self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
+        self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
+
         video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
+
+        return_value, frame = self.capture.read()
+        if return_value:
+            self.w, self.h = frame.shape[1], frame.shape[0]
+            # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
+            self.bwRef = np.zeros((self.h, self.w))
+            print(self.bwRef.shape)
+            # bestPara, dataMLOutput, GMModelOutput, epsilonOutput = self.eng.fun_loadMatFile('bestPara.mat', nargout=4)
+            # print(epsilonOutput)
+
         self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 15)
         self.readFrequency = 30
         self.readCount = 0
@@ -62,6 +75,9 @@ class KivyCamera(Image):
         self.readCount += 1
         return_value, frame = self.capture.read()
         if return_value:
+            # self.eng.fun_autoRecognizeByVideo(frame,self.rectFilePathName,\
+            # self.rotateFilePathName,bestParaMats,self.bwRef)
+
             if (self.readCount % self.readFrequency) == 0:
                 with open('./data_1.txt') as fp1:
                     tagFirst = fp1.readline().rstrip('\n')
@@ -107,9 +123,9 @@ class KivyCamera(Image):
                 '[b][color=00ff00]正常[/color][/b]'
 
             texture = self.texture
-            w, h = frame.shape[1], frame.shape[0]
-            if not texture or texture.width != w or texture.height != h:
-                self.texture = texture = Texture.create(size=(w, h))
+            # w, h = frame.shape[1], frame.shape[0]
+            if not texture or texture.width != self.w or texture.height != self.h:
+                self.texture = texture = Texture.create(size=(self.w, self.h))
                 texture.flip_vertical()
             texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
             self.canvas.ask_update()
