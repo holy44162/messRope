@@ -53,6 +53,34 @@ class KivyCamera(Image):
             # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
             self.bwRef = np.zeros((self.h, self.w))
             print(self.bwRef.shape)
+            self.eng.load('bestPara.mat', nargout=0)
+            eps = self.eng.workspace['epsilonOutput']
+            print(eps)
+            dataMLOutput = self.eng.workspace['dataMLOutput']
+            dataMLOutputType = type(dataMLOutput)
+            print(dataMLOutputType)
+            self.eng.workspace['epsilonOutput'] = 9
+            a = self.eng.eval('epsilonOutput+1')
+            print(a)
+
+            sh = matlab.double(array('d',frame.shape))
+            npary2 = matlab.double(np.array('d',np.nditer(frame)))
+            mat = np.reshape(npary2,np.fliplr(sh))
+            mat = np.transpose(mat)
+
+
+            # vidFrame = matlab.double(list(frame))
+            self.eng.imshow(mat, nargout=0)
+
+            data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
+            data1m = matlab.double(list(data1))
+            print(data1m)
+
+            # frameType = type(frame)
+            # print(frameType)
+
+            # self.eng.imshow(frame, nargout=0)
+            # GMModelOutput = matlab.object
             # bestPara, dataMLOutput, GMModelOutput, epsilonOutput = self.eng.fun_loadMatFile('bestPara.mat', nargout=4)
             # print(epsilonOutput)
 
