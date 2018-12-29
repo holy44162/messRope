@@ -56,21 +56,21 @@ class KivyCamera(Image):
             self.eng.load('bestPara.mat', nargout=0)
             eps = self.eng.workspace['epsilonOutput']
             print(eps)
-            dataMLOutput = self.eng.workspace['dataMLOutput']
-            dataMLOutputType = type(dataMLOutput)
-            print(dataMLOutputType)
+            GMModelOutput = self.eng.workspace['GMModelOutput']
+            GMModelOutputType = type(GMModelOutput)
+            print(GMModelOutputType)
             self.eng.workspace['epsilonOutput'] = 9
             a = self.eng.eval('epsilonOutput+1')
             print(a)
 
-            sh = matlab.double(array('d',frame.shape))
-            npary2 = matlab.double(np.array('d',np.nditer(frame)))
-            mat = np.reshape(npary2,np.fliplr(sh))
-            mat = np.transpose(mat)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # cv2.imshow('image', gray)
+            data_list = gray.tolist()
+            self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
 
 
             # vidFrame = matlab.double(list(frame))
-            self.eng.imshow(mat, nargout=0)
+            # self.eng.imshow(mat, nargout=0)
 
             data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
             data1m = matlab.double(list(data1))
