@@ -68,13 +68,15 @@ class KivyCamera(Image):
             data_list = gray.tolist()
             self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
 
+            print(frame.shape)
+
 
             # vidFrame = matlab.double(list(frame))
             # self.eng.imshow(mat, nargout=0)
 
-            data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
-            data1m = matlab.double(list(data1))
-            print(data1m)
+            # data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
+            # data1m = matlab.double(list(data1))
+            # print(data1m)
 
             # frameType = type(frame)
             # print(frameType)
