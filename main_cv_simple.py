@@ -58,24 +58,49 @@ class KivyCamera(Image):
         return_value, frame = self.capture.read()
         if return_value:
             self.w, self.h = frame.shape[1], frame.shape[0]
+
             # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
-            self.bwRef = np.zeros((self.h, self.w))
-            print(self.bwRef.shape)
-            self.eng.load('bestPara.mat', nargout=0)
+            # self.bwRef = np.zeros((self.h, self.w))
+            # print(self.bwRef.shape)
+            # self.eng.load('bestPara.mat', nargout=0)
+            #
+            # bestPara = self.eng.workspace['bestPara']
+            # dataMLOutput = self.eng.workspace['dataMLOutput']
+            # GMModelOutput = self.eng.workspace['GMModelOutput']
+            # epsilonOutput = self.eng.workspace['epsilonOutput']
 
-            bestPara = self.eng.workspace['bestPara']
-            dataMLOutput = self.eng.workspace['dataMLOutput']
-            GMModelOutput = self.eng.workspace['GMModelOutput']
-            epsilonOutput = self.eng.workspace['epsilonOutput']
-
+            print(frame.shape)
             t1 = time.time()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            data_list = gray.tolist()
-            messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython(data_list,self.rectFilePathName,\
-            self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
-            frame.shape[1],frame.shape[0],nargout=2)
-            print(messTagMatlab)
-            print(messPosMatlab)
+            gray = cv2.resize(gray,(10,20))
+            # data_list_matlab = matlab.double(gray)
+            # print(type(data_list_matlab))
+            # print(data_list_matlab.size)
+            # print(data_list_matlab)
+            A = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
+            print(A)
+            # data_list = gray.tolist()
+            # flat_list = [item for sublist in data_list for item in sublist]
+            # self.eng.imshow(data_list_matlab, nargout=0)
+            # newimg = cv2.resize(gray,(10,20))
+            # print(newimg.shape)
+            # print(type(newimg))
+            # print(newimg)
+            # data_list = newimg.tolist()
+            # print(len(data_list))
+            # print(type(data_list))
+            # print(data_list)
+            # flat_list = [item for sublist in data_list for item in sublist]
+            # print(len(flat_list))
+            # print(type(flat_list))
+            # print(flat_list)
+            # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+            # data_list_matlab = matlab.uint8(data_list)
+            # messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython1(data_list_matlab,self.rectFilePathName,\
+            # self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
+            # frame.shape[1],frame.shape[0],nargout=2)
+            # print(messTagMatlab)
+            # print(messPosMatlab)
             elapsed1 = time.time() - t1
             print(elapsed1)
 
