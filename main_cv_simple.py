@@ -39,10 +39,14 @@ class KivyCamera(Image):
         super(KivyCamera, self).__init__(**kwargs)
 
         self.eng = App.get_running_app().future.result()
-        self.eng.addpath('m:/files/files/phd/functions/messRopeFunctions', nargout=0)
+        # self.eng.addpath('m:/files/files/phd/functions/messRopeFunctions', nargout=0)
+        self.eng.addpath('e:/百度云同步盘/files/phd/functions/messRopeFunctions', nargout=0)
 
-        self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
-        self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
+        # self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
+        # self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
+
+        self.rectFilePathName = './rect_anno.txt'
+        self.rotateFilePathName = './angle_rotate.txt'
 
         video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
