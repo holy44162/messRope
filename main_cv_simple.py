@@ -12,6 +12,10 @@ from kivy.uix.effectwidget import EffectWidget, EffectBase
 
 import matlab.engine
 
+import time
+
+# from PIL import Image as ImagePillow
+
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
 
@@ -45,8 +49,8 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
         # self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
 
-        self.rectFilePathName = './rect_anno.txt'
-        self.rotateFilePathName = './angle_rotate.txt'
+        self.rectFilePathName = 'rect_anno.txt'
+        self.rotateFilePathName = 'angle_rotate.txt'
 
         video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
@@ -58,21 +62,57 @@ class KivyCamera(Image):
             self.bwRef = np.zeros((self.h, self.w))
             print(self.bwRef.shape)
             self.eng.load('bestPara.mat', nargout=0)
-            eps = self.eng.workspace['epsilonOutput']
-            print(eps)
+
+            bestPara = self.eng.workspace['bestPara']
+            dataMLOutput = self.eng.workspace['dataMLOutput']
             GMModelOutput = self.eng.workspace['GMModelOutput']
-            GMModelOutputType = type(GMModelOutput)
-            print(GMModelOutputType)
-            self.eng.workspace['epsilonOutput'] = 9
-            a = self.eng.eval('epsilonOutput+1')
-            print(a)
+            epsilonOutput = self.eng.workspace['epsilonOutput']
 
+            t1 = time.time()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # cv2.imshow('image', gray)
             data_list = gray.tolist()
-            self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+            messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython(data_list,self.rectFilePathName,\
+            self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
+            frame.shape[1],frame.shape[0],nargout=2)
+            print(messTagMatlab)
+            print(messPosMatlab)
+            elapsed1 = time.time() - t1
+            print(elapsed1)
 
-            print(frame.shape)
+            # eps = self.eng.workspace['epsilonOutput']
+            # print(eps)
+            # GMModelOutput = self.eng.workspace['GMModelOutput']
+            # GMModelOutputType = type(GMModelOutput)
+            # print(GMModelOutputType)
+            # self.eng.workspace['epsilonOutput'] = 9
+            # a = self.eng.eval('epsilonOutput+1')
+            # print(a)
+
+            # t1 = time.time()
+            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # # cv2.imshow('image', gray)
+            # data_list = gray.tolist()
+            # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+            # elapsed1 = time.time() - t1
+            # print(elapsed1)
+            # print(frame.shape)
+
+
+
+            # t2 = time.time()
+            # bChannel,gChannel,rChannel = cv2.split(frame)
+            # data_listR = rChannel.tolist()
+            # data_listG = gChannel.tolist()
+            # data_listB = bChannel.tolist()
+            # self.eng.fun_imshowColor(data_listR, data_listG, data_listB, \
+            # frame.shape[1], frame.shape[0], nargout=0)
+            # elapsed2 = time.time() - t2
+            # print(elapsed2)
+
+            # imPillow = ImagePillow.fromarray(frame)
+            # image_mat = matlab.uint8(list(imPillow.getdata()))
+            # image_mat.reshape((imPillow.size[0], imPillow.size[1], 3))
+            # self.eng.fun_imshowPillow(image_mat, nargout=0)
 
 
             # vidFrame = matlab.double(list(frame))
