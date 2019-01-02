@@ -177,6 +177,9 @@ class KivyCamera(Image):
             # self.eng.fun_autoRecognizeByVideo(frame,self.rectFilePathName,\
             # self.rotateFilePathName,bestParaMats,self.bwRef)
 
+            frameTimeStamp = self.capture.get(0)
+            roundFrameTimeStamp = round(frameTimeStamp/1000, 1)
+            print(roundFrameTimeStamp)
             if (self.readCount % self.readFrequency) == 0:
                 with open('./data_1.txt') as fp1:
                     tagFirst = fp1.readline().rstrip('\n')
