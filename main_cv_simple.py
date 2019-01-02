@@ -12,7 +12,7 @@ from kivy.uix.effectwidget import EffectWidget, EffectBase
 
 # import matlab.engine
 
-import time
+from pathlib import Path
 
 # from PIL import Image as ImagePillow
 
@@ -49,111 +49,118 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
         # self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
 
-        self.rectFilePathName = 'rect_anno.txt'
-        self.rotateFilePathName = 'angle_rotate.txt'
+        # self.rectFilePathName = 'rect_anno.txt'
+        # self.rotateFilePathName = 'angle_rotate.txt'
 
         video_files_path = './test2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
 
+        self.timeStampPythonFilePathName = './timeStampPython.txt';
+        self.timeStampMatlabFilePathName = './timeStampMatlab.txt';
+
         return_value, frame = self.capture.read()
         if return_value:
             self.w, self.h = frame.shape[1], frame.shape[0]
-
-            # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
-            # self.bwRef = np.zeros((self.h, self.w))
-            # print(self.bwRef.shape)
-            # self.eng.load('bestPara.mat', nargout=0)
-            #
-            # bestPara = self.eng.workspace['bestPara']
-            # dataMLOutput = self.eng.workspace['dataMLOutput']
-            # GMModelOutput = self.eng.workspace['GMModelOutput']
-            # epsilonOutput = self.eng.workspace['epsilonOutput']
-
-            print(frame.shape)
-            # t1 = time.time()
-            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # gray = cv2.resize(gray,(10,20))
-            # # data_list_matlab = matlab.double(gray)
-            # # print(type(data_list_matlab))
-            # # print(data_list_matlab.size)
-            # # print(data_list_matlab)
-            # A = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
-            # print(A)
-            # # data_list = gray.tolist()
-            # # flat_list = [item for sublist in data_list for item in sublist]
-            # # self.eng.imshow(data_list_matlab, nargout=0)
-            # # newimg = cv2.resize(gray,(10,20))
-            # # print(newimg.shape)
-            # # print(type(newimg))
-            # # print(newimg)
-            # # data_list = newimg.tolist()
-            # # print(len(data_list))
-            # # print(type(data_list))
-            # # print(data_list)
-            # # flat_list = [item for sublist in data_list for item in sublist]
-            # # print(len(flat_list))
-            # # print(type(flat_list))
-            # # print(flat_list)
-            # # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
-            # # data_list_matlab = matlab.uint8(data_list)
-            # # messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython1(data_list_matlab,self.rectFilePathName,\
-            # # self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
-            # # frame.shape[1],frame.shape[0],nargout=2)
-            # # print(messTagMatlab)
-            # # print(messPosMatlab)
-            # elapsed1 = time.time() - t1
-            # print(elapsed1)
-
-            # eps = self.eng.workspace['epsilonOutput']
-            # print(eps)
-            # GMModelOutput = self.eng.workspace['GMModelOutput']
-            # GMModelOutputType = type(GMModelOutput)
-            # print(GMModelOutputType)
-            # self.eng.workspace['epsilonOutput'] = 9
-            # a = self.eng.eval('epsilonOutput+1')
-            # print(a)
-
-            # t1 = time.time()
-            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # # cv2.imshow('image', gray)
-            # data_list = gray.tolist()
-            # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
-            # elapsed1 = time.time() - t1
-            # print(elapsed1)
-            # print(frame.shape)
-
-
-
-            # t2 = time.time()
-            # bChannel,gChannel,rChannel = cv2.split(frame)
-            # data_listR = rChannel.tolist()
-            # data_listG = gChannel.tolist()
-            # data_listB = bChannel.tolist()
-            # self.eng.fun_imshowColor(data_listR, data_listG, data_listB, \
-            # frame.shape[1], frame.shape[0], nargout=0)
-            # elapsed2 = time.time() - t2
-            # print(elapsed2)
-
-            # imPillow = ImagePillow.fromarray(frame)
-            # image_mat = matlab.uint8(list(imPillow.getdata()))
-            # image_mat.reshape((imPillow.size[0], imPillow.size[1], 3))
-            # self.eng.fun_imshowPillow(image_mat, nargout=0)
-
-
-            # vidFrame = matlab.double(list(frame))
-            # self.eng.imshow(mat, nargout=0)
-
-            # data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
-            # data1m = matlab.double(list(data1))
-            # print(data1m)
-
-            # frameType = type(frame)
-            # print(frameType)
-
-            # self.eng.imshow(frame, nargout=0)
-            # GMModelOutput = matlab.object
-            # bestPara, dataMLOutput, GMModelOutput, epsilonOutput = self.eng.fun_loadMatFile('bestPara.mat', nargout=4)
-            # print(epsilonOutput)
+            frameTimeStamp = self.capture.get(0)
+            self.roundFrameTimeStamp = round(frameTimeStamp/1000, 1)
+            with open(self.timeStampPythonFilePathName, 'w') as fpPython:
+                fpPython.write(str(self.roundFrameTimeStamp))
+        #
+        #     # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
+        #     # self.bwRef = np.zeros((self.h, self.w))
+        #     # print(self.bwRef.shape)
+        #     # self.eng.load('bestPara.mat', nargout=0)
+        #     #
+        #     # bestPara = self.eng.workspace['bestPara']
+        #     # dataMLOutput = self.eng.workspace['dataMLOutput']
+        #     # GMModelOutput = self.eng.workspace['GMModelOutput']
+        #     # epsilonOutput = self.eng.workspace['epsilonOutput']
+        #
+        #     print(frame.shape)
+        #     # t1 = time.time()
+        #     # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #     # gray = cv2.resize(gray,(10,20))
+        #     # # data_list_matlab = matlab.double(gray)
+        #     # # print(type(data_list_matlab))
+        #     # # print(data_list_matlab.size)
+        #     # # print(data_list_matlab)
+        #     # A = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
+        #     # print(A)
+        #     # # data_list = gray.tolist()
+        #     # # flat_list = [item for sublist in data_list for item in sublist]
+        #     # # self.eng.imshow(data_list_matlab, nargout=0)
+        #     # # newimg = cv2.resize(gray,(10,20))
+        #     # # print(newimg.shape)
+        #     # # print(type(newimg))
+        #     # # print(newimg)
+        #     # # data_list = newimg.tolist()
+        #     # # print(len(data_list))
+        #     # # print(type(data_list))
+        #     # # print(data_list)
+        #     # # flat_list = [item for sublist in data_list for item in sublist]
+        #     # # print(len(flat_list))
+        #     # # print(type(flat_list))
+        #     # # print(flat_list)
+        #     # # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+        #     # # data_list_matlab = matlab.uint8(data_list)
+        #     # # messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython1(data_list_matlab,self.rectFilePathName,\
+        #     # # self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
+        #     # # frame.shape[1],frame.shape[0],nargout=2)
+        #     # # print(messTagMatlab)
+        #     # # print(messPosMatlab)
+        #     # elapsed1 = time.time() - t1
+        #     # print(elapsed1)
+        #
+        #     # eps = self.eng.workspace['epsilonOutput']
+        #     # print(eps)
+        #     # GMModelOutput = self.eng.workspace['GMModelOutput']
+        #     # GMModelOutputType = type(GMModelOutput)
+        #     # print(GMModelOutputType)
+        #     # self.eng.workspace['epsilonOutput'] = 9
+        #     # a = self.eng.eval('epsilonOutput+1')
+        #     # print(a)
+        #
+        #     # t1 = time.time()
+        #     # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #     # # cv2.imshow('image', gray)
+        #     # data_list = gray.tolist()
+        #     # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+        #     # elapsed1 = time.time() - t1
+        #     # print(elapsed1)
+        #     # print(frame.shape)
+        #
+        #
+        #
+        #     # t2 = time.time()
+        #     # bChannel,gChannel,rChannel = cv2.split(frame)
+        #     # data_listR = rChannel.tolist()
+        #     # data_listG = gChannel.tolist()
+        #     # data_listB = bChannel.tolist()
+        #     # self.eng.fun_imshowColor(data_listR, data_listG, data_listB, \
+        #     # frame.shape[1], frame.shape[0], nargout=0)
+        #     # elapsed2 = time.time() - t2
+        #     # print(elapsed2)
+        #
+        #     # imPillow = ImagePillow.fromarray(frame)
+        #     # image_mat = matlab.uint8(list(imPillow.getdata()))
+        #     # image_mat.reshape((imPillow.size[0], imPillow.size[1], 3))
+        #     # self.eng.fun_imshowPillow(image_mat, nargout=0)
+        #
+        #
+        #     # vidFrame = matlab.double(list(frame))
+        #     # self.eng.imshow(mat, nargout=0)
+        #
+        #     # data1 = np.random.uniform(low = 0.0, high = 30000.0, size = (10,))
+        #     # data1m = matlab.double(list(data1))
+        #     # print(data1m)
+        #
+        #     # frameType = type(frame)
+        #     # print(frameType)
+        #
+        #     # self.eng.imshow(frame, nargout=0)
+        #     # GMModelOutput = matlab.object
+        #     # bestPara, dataMLOutput, GMModelOutput, epsilonOutput = self.eng.fun_loadMatFile('bestPara.mat', nargout=4)
+        #     # print(epsilonOutput)
 
         self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 15)
         self.readFrequency = 30
@@ -171,74 +178,81 @@ class KivyCamera(Image):
     #     self.capture = None
 
     def update(self, dt):
-        self.readCount += 1
-        return_value, frame = self.capture.read()
-        if return_value:
-            # self.eng.fun_autoRecognizeByVideo(frame,self.rectFilePathName,\
-            # self.rotateFilePathName,bestParaMats,self.bwRef)
+        matlab_file = Path(self.timeStampMatlabFilePathName)
+        if matlab_file.is_file():
+            with open(self.timeStampMatlabFilePathName) as fpMatlab:
+                strTimeStampMatlab = fpMatlab.readline().rstrip('\n')
+                if self.roundFrameTimeStamp <= float(strTimeStampMatlab):
+                    self.readCount += 1
+                    return_value, frame = self.capture.read()
+                    if return_value:
+                        # self.eng.fun_autoRecognizeByVideo(frame,self.rectFilePathName,\
+                        # self.rotateFilePathName,bestParaMats,self.bwRef)
 
-            frameTimeStamp = self.capture.get(0)
-            roundFrameTimeStamp = round(frameTimeStamp/1000, 1)
-            print(roundFrameTimeStamp)
-            if (self.readCount % self.readFrequency) == 0:
-                with open('./data_1.txt') as fp1:
-                    tagFirst = fp1.readline().rstrip('\n')
-                    line1 = '[color=ffff00]' + tagFirst + '[/color]'
-                    App.get_running_app().root.ids.holyLabel1.text = line1
+                        frameTimeStamp = self.capture.get(0)
+                        self.roundFrameTimeStamp = round(frameTimeStamp/1000, 1)
+                        with open(self.timeStampPythonFilePathName, 'w') as fpPython:
+                            fpPython.write(str(self.roundFrameTimeStamp))
 
-                    self.messTag1 = int(tagFirst)
-                    if self.messTag1 == 1:
-                        strPosFirst = fp1.readline().rstrip('\n')
-                        strPosFirst = strPosFirst.split('\t')
-                        self.pts1 = np.array([[int(strPosFirst[0]),int(strPosFirst[1])],\
-                        [int(strPosFirst[2]),int(strPosFirst[3])],\
-                        [int(strPosFirst[4]),int(strPosFirst[5])],\
-                        [int(strPosFirst[6]),int(strPosFirst[7])]], np.int32)
-                with open('./data_2.txt') as fp2:
-                    tagSecond = fp2.readline().rstrip('\n')
-                    line2 = '[color=ffff00]' + tagSecond + '[/color]'
-                    App.get_running_app().root.ids.holyLabel2.text = line2
+                        if (self.readCount % self.readFrequency) == 0:
+                            with open('./data_1.txt') as fp1:
+                                tagFirst = fp1.readline().rstrip('\n')
+                                line1 = '[color=ffff00]' + tagFirst + '[/color]'
+                                App.get_running_app().root.ids.holyLabel1.text = line1
 
-                    self.messTag2 = int(tagSecond)
-                    if self.messTag2 == 1:
-                        strPosSecond = fp2.readline().rstrip('\n')
-                        strPosSecond = strPosSecond.split('\t')
-                        self.pts2 = np.array([[int(strPosSecond[0]),int(strPosSecond[1])],\
-                        [int(strPosSecond[2]),int(strPosSecond[3])],\
-                        [int(strPosSecond[4]),int(strPosSecond[5])],\
-                        [int(strPosSecond[6]),int(strPosSecond[7])]], np.int32)
+                                self.messTag1 = int(tagFirst)
+                                if self.messTag1 == 1:
+                                    strPosFirst = fp1.readline().rstrip('\n')
+                                    strPosFirst = strPosFirst.split('\t')
+                                    self.pts1 = np.array([[int(strPosFirst[0]),int(strPosFirst[1])],\
+                                    [int(strPosFirst[2]),int(strPosFirst[3])],\
+                                    [int(strPosFirst[4]),int(strPosFirst[5])],\
+                                    [int(strPosFirst[6]),int(strPosFirst[7])]], np.int32)
+                            with open('./data_2.txt') as fp2:
+                                tagSecond = fp2.readline().rstrip('\n')
+                                line2 = '[color=ffff00]' + tagSecond + '[/color]'
+                                App.get_running_app().root.ids.holyLabel2.text = line2
 
-            if self.messTag1 == 1:
-                cv2.polylines(frame,[self.pts1],True,(0,0,255),self.polygonLineThickness)
-            elif self.messTag2 == 1:
-                cv2.polylines(frame,[self.pts2],True,(0,0,255),self.polygonLineThickness)
+                                self.messTag2 = int(tagSecond)
+                                if self.messTag2 == 1:
+                                    strPosSecond = fp2.readline().rstrip('\n')
+                                    strPosSecond = strPosSecond.split('\t')
+                                    self.pts2 = np.array([[int(strPosSecond[0]),int(strPosSecond[1])],\
+                                    [int(strPosSecond[2]),int(strPosSecond[3])],\
+                                    [int(strPosSecond[4]),int(strPosSecond[5])],\
+                                    [int(strPosSecond[6]),int(strPosSecond[7])]], np.int32)
 
-            if self.messTag1 == 1 or self.messTag2 == 1:
-                App.get_running_app().root.ids.holyLabelMess.text = \
-                '[b][color=ff0000]乱绳[/color][/b]'
-                App.get_running_app().root.ids.holyEffect.effects = \
-                [App.get_running_app().root.ids.holyEffect.effect_reference]
-                # App.get_running_app().root.ids.holyLabelMess.font_size = \
-                # App.get_running_app().root.font_scaling*60
-            else:
-                App.get_running_app().root.ids.holyLabelMess.text = \
-                '[b][color=00ff00]正常[/color][/b]'
+                        if self.messTag1 == 1:
+                            cv2.polylines(frame,[self.pts1],True,(0,0,255),self.polygonLineThickness)
+                        elif self.messTag2 == 1:
+                            cv2.polylines(frame,[self.pts2],True,(0,0,255),self.polygonLineThickness)
 
-            texture = self.texture
-            # w, h = frame.shape[1], frame.shape[0]
-            if not texture or texture.width != self.w or texture.height != self.h:
-                self.texture = texture = Texture.create(size=(self.w, self.h))
-                texture.flip_vertical()
-            texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
-            self.canvas.ask_update()
-        else:
-            self.capture.set(0, 0)
-            # Clock.unschedule(self.clockEvent)
-            print(self.capture)
-            # self.eng.simple(nargout=0)
-            # tf = self.eng.isprime(37)
-            # print(tf)
-            # self.capture = None
+                        if self.messTag1 == 1 or self.messTag2 == 1:
+                            App.get_running_app().root.ids.holyLabelMess.text = \
+                            '[b][color=ff0000]乱绳[/color][/b]'
+                            App.get_running_app().root.ids.holyEffect.effects = \
+                            [App.get_running_app().root.ids.holyEffect.effect_reference]
+                            # App.get_running_app().root.ids.holyLabelMess.font_size = \
+                            # App.get_running_app().root.font_scaling*60
+                        else:
+                            App.get_running_app().root.ids.holyLabelMess.text = \
+                            '[b][color=00ff00]正常[/color][/b]'
+
+                        texture = self.texture
+                        # w, h = frame.shape[1], frame.shape[0]
+                        if not texture or texture.width != self.w or texture.height != self.h:
+                            self.texture = texture = Texture.create(size=(self.w, self.h))
+                            texture.flip_vertical()
+                        texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
+                        self.canvas.ask_update()
+                    else:
+                        self.capture.set(0, 0)
+                        # Clock.unschedule(self.clockEvent)
+                        print(self.capture)
+                        # self.eng.simple(nargout=0)
+                        # tf = self.eng.isprime(37)
+                        # print(tf)
+                        # self.capture = None
 
 class MessRopeRoot(Screen):
 
