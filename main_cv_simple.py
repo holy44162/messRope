@@ -10,7 +10,7 @@ import numpy as np
 import cv2
 from kivy.uix.effectwidget import EffectWidget, EffectBase
 
-import matlab.engine
+# import matlab.engine
 
 import time
 
@@ -42,9 +42,9 @@ class KivyCamera(Image):
     def __init__(self, capture = None, **kwargs):
         super(KivyCamera, self).__init__(**kwargs)
 
-        self.eng = App.get_running_app().future.result()
+        # self.eng = App.get_running_app().future.result()
         # self.eng.addpath('m:/files/files/phd/functions/messRopeFunctions', nargout=0)
-        self.eng.addpath('e:/百度云同步盘/files/phd/functions/messRopeFunctions', nargout=0)
+        # self.eng.addpath('e:/百度云同步盘/files/phd/functions/messRopeFunctions', nargout=0)
 
         # self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
         # self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
@@ -70,39 +70,39 @@ class KivyCamera(Image):
             # epsilonOutput = self.eng.workspace['epsilonOutput']
 
             print(frame.shape)
-            t1 = time.time()
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            gray = cv2.resize(gray,(10,20))
-            # data_list_matlab = matlab.double(gray)
-            # print(type(data_list_matlab))
-            # print(data_list_matlab.size)
-            # print(data_list_matlab)
-            A = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
-            print(A)
-            # data_list = gray.tolist()
-            # flat_list = [item for sublist in data_list for item in sublist]
-            # self.eng.imshow(data_list_matlab, nargout=0)
-            # newimg = cv2.resize(gray,(10,20))
-            # print(newimg.shape)
-            # print(type(newimg))
-            # print(newimg)
-            # data_list = newimg.tolist()
-            # print(len(data_list))
-            # print(type(data_list))
-            # print(data_list)
-            # flat_list = [item for sublist in data_list for item in sublist]
-            # print(len(flat_list))
-            # print(type(flat_list))
-            # print(flat_list)
-            # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
-            # data_list_matlab = matlab.uint8(data_list)
-            # messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython1(data_list_matlab,self.rectFilePathName,\
-            # self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
-            # frame.shape[1],frame.shape[0],nargout=2)
-            # print(messTagMatlab)
-            # print(messPosMatlab)
-            elapsed1 = time.time() - t1
-            print(elapsed1)
+            # t1 = time.time()
+            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # gray = cv2.resize(gray,(10,20))
+            # # data_list_matlab = matlab.double(gray)
+            # # print(type(data_list_matlab))
+            # # print(data_list_matlab.size)
+            # # print(data_list_matlab)
+            # A = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
+            # print(A)
+            # # data_list = gray.tolist()
+            # # flat_list = [item for sublist in data_list for item in sublist]
+            # # self.eng.imshow(data_list_matlab, nargout=0)
+            # # newimg = cv2.resize(gray,(10,20))
+            # # print(newimg.shape)
+            # # print(type(newimg))
+            # # print(newimg)
+            # # data_list = newimg.tolist()
+            # # print(len(data_list))
+            # # print(type(data_list))
+            # # print(data_list)
+            # # flat_list = [item for sublist in data_list for item in sublist]
+            # # print(len(flat_list))
+            # # print(type(flat_list))
+            # # print(flat_list)
+            # # self.eng.fun_imshowPython(data_list, frame.shape[1], frame.shape[0], nargout=0)
+            # # data_list_matlab = matlab.uint8(data_list)
+            # # messTagMatlab, messPosMatlab = self.eng.fun_autoRecognizeByVideoPython1(data_list_matlab,self.rectFilePathName,\
+            # # self.rotateFilePathName,bestPara,dataMLOutput,GMModelOutput,epsilonOutput,\
+            # # frame.shape[1],frame.shape[0],nargout=2)
+            # # print(messTagMatlab)
+            # # print(messPosMatlab)
+            # elapsed1 = time.time() - t1
+            # print(elapsed1)
 
             # eps = self.eng.workspace['epsilonOutput']
             # print(eps)
@@ -264,7 +264,7 @@ class MessRopeRoot(Screen):
 
 class MessRopeApp(App):
 
-    future = matlab.engine.start_matlab(async=True)
+    # future = matlab.engine.start_matlab(async=True)
 
     def build(self):
         Window.minimum_width = WINDOW_MIN_WIDTH
