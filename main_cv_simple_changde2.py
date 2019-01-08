@@ -52,7 +52,7 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'rect_anno.txt'
         # self.rotateFilePathName = 'angle_rotate.txt'
 
-        video_files_path = './test_changde2.mp4'
+        video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
         self.capture = cv2.VideoCapture(video_files_path)
 
         return_value, frame = self.capture.read()
