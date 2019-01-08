@@ -1,0 +1,275 @@
+MessRopeRoot:
+    name: 'TabbedPanelMessRope'
+    fullscreen: True
+    on_parent: if args[1] and tp.current_tab == tab_fl: root.showcase_boxlayout(fl)
+
+    TabbedPanel:
+        id: tp
+        do_default_tab: False
+
+        TabbedPanelItem:
+            id: tab_fl
+            font_name: 'Adobe Kaiti Std.otf'
+            text: '离线视频'
+            on_release: root.showcase_boxlayout(fl)
+            FloatLayout:
+                CBoxLayout:
+                    id: fl
+                    # orientation: 'vertical'
+                    CBoxLayout:
+                        id: fl1
+                        orientation: 'vertical'
+                        size_hint: .75, 1
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'center'
+                            text:
+                                '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*30)
+                            # canvas:
+                            #     Color:
+                            #         rgba: 1, 0, 0, .5
+                            #     Rectangle:
+                            #         pos: self.pos
+                            #         size: self.size
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'bottom'
+                            text:
+                                '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*20)
+                        KivyCamera:
+                            id: qrcam
+                            size_hint: 1, .9
+                            allow_stretch: True
+                            keep_ratio: False
+                        # Label:
+                        #     size_hint: 1, .1
+                        #     font_name: 'Adobe Kaiti Std.otf'
+                        #     text:
+                        #         ('[b][color=feffd5]湖南中联重科智能技术有限公司[/color][/b]')
+                        #     markup: True
+                        #     # font_size: '50'
+                        #     font_size: sp(root.font_scaling*40)
+                        # CBoxLayout:
+                        #     size_hint: 1, .1
+                        #     Button:
+                        #         id: butt_start
+                        #         font_name: 'Adobe Kaiti Std.otf'
+                        #         text: "开始"
+                        #         # font_size: '25'
+                        #         font_size: sp(root.font_scaling*25)
+                        #         on_press: root.dostart()
+                        #     Button:
+                        #         id: butt_exit
+                        #         font_name: 'Adobe Kaiti Std.otf'
+                        #         text: "停止"
+                        #         # font_size: '25'
+                        #         font_size: sp(root.font_scaling*25)
+                        #         on_press: root.doexit()
+                    CBoxLayoutRight:
+                        orientation: 'vertical'
+                        size_hint: .25, 1
+                        Label:
+                            id: holyLabel1
+                            size_hint: 1, .1
+                            text:
+                                ('[color=ffff00]0[/color]')
+                            markup: True
+                            # font_size: '15pt'
+                            font_size: sp(root.font_scaling*15)
+                        # Label:
+                        #     id: holyLabel2
+                        #     size_hint: 1, .1
+                        #     text:
+                        #         ('[color=ffff00]0[/color]')
+                        #     markup: True
+                        #     font_size: sp(root.font_scaling*15)
+                        # Label:
+                        #     id: holyLabelMess
+                        #     size_hint: 1, .8
+                        #     font_name: 'Adobe Kaiti Std.otf'
+                        #     text:
+                        #         ('[b][color=ff0000]正常[/color][/b]')
+                        #     markup: True
+                        #     # font_size: '55'
+                        #     font_size: sp(root.font_scaling*55)
+                        #     # canvas:
+                        #     #     Color:
+                        #     #         rgba: 1, 0, 0, .5
+                        #     #     Rectangle:
+                        #     #         pos: self.pos
+                        #     #         size: self.size
+                        DemoEffect:
+                            id: holyEffect
+                            size_hint: 1, .9
+                            effects: []
+                            Label:
+                                id: holyLabelMess
+                                font_name: 'Adobe Kaiti Std.otf'
+                                text:
+                                    ('[b][color=00ff00]正常[/color][/b]')
+                                markup: True
+                                font_size: sp(root.font_scaling*55)
+                # FloatLayout:
+                #     canvas:
+                #         Color:
+                #             rgb: 1, 0, 0
+                #         # Rectangle:
+                #         #     pos: root.scalingWidth*root.ids.myvideo.width/2, root.scalingHeight*root.ids.myvideo.height/2
+                #         #     size: 25, 25
+                #         # Ellipse:
+                #         #     angle_start: 0
+                #         #     angle_end: 360
+                #         Line:
+                #             # points: [100, 100, 200, 100, 100, 200]
+                #             # ellipse: (350, 200, 50, 150, 0, 360)
+                #             # circle: root.ids.myvideo.center_x+200,root.ids.myvideo.center_y+200,5
+                #             # circle: root.videoWidth,root.videoHeight,5
+                #             # circle: root.ids.fl1.width*8/20,root.ids.fl1.height*11/20,5
+                #             circle: root.ids.qrcam.x,root.ids.qrcam.y,5
+                #             # bezier:
+                #             #     root.ids.myvideo.center_x+root.scalingWidth*100, root.ids.myvideo.center_y+root.scalingHeight*200,\
+                #             #     root.ids.myvideo.center_x+root.scalingWidth*150, root.ids.myvideo.center_y+root.scalingHeight*200, \
+                #             #     root.ids.myvideo.center_x+root.scalingWidth*150, root.ids.myvideo.center_y+root.scalingHeight*250, \
+                #             #     root.ids.myvideo.center_x+root.scalingWidth*100, root.ids.myvideo.center_y+root.scalingHeight*200
+                #             width: 2
+        TabbedPanelItem:
+            font_name: 'Adobe Kaiti Std.otf'
+            text: '实时视频'
+            on_release: root.showcase_boxlayout(box)
+            FloatLayout
+                CBoxLayout:
+                    id: box
+                    CBoxLayout:
+                        orientation: 'vertical'
+                        size_hint: .75, 1
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'center'
+                            text:
+                                '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*30)
+                        Label:
+                            size_hint: 1, .05
+                            font_name: 'Adobe Kaiti Std.otf'
+                            halign: 'center'
+                            valign: 'bottom'
+                            text:
+                                '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+                            # text:
+                            #     """
+                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                            #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
+                            #     """
+                            markup: True
+                            # font_size: '50'
+                            font_size: sp(root.font_scaling*20)
+                        # Label:
+                        #     size_hint: 1, .1
+                        #     font_name: 'Adobe Kaiti Std.otf'
+                        #     halign: 'center'
+                        #     text:
+                        #         """
+                        #         [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+                        #         [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
+                        #         """
+                        #     markup: True
+                        #     # font_size: '50'
+                        #     font_size: sp(root.font_scaling*31)
+                        Video:
+                            size_hint: 1, .81
+                            id: myvideoRight
+                            source: 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+                            allow_stretch: True
+                            state: 'play'
+                            options: {'eos': 'loop'}
+                            allow_stretch: True
+                            keep_ratio: False
+                        CBoxLayout:
+                            size_hint: 1, .09
+                            Button:
+                                font_name: 'Adobe Kaiti Std.otf'
+                                text: "开始"
+                                # font_size: '25'
+                                font_size: sp(root.font_scaling*25)
+                            Button:
+                                font_name: 'Adobe Kaiti Std.otf'
+                                text: "停止"
+                                # font_size: '25'
+                                font_size: sp(root.font_scaling*25)
+                    CBoxLayoutRight:
+                        orientation: 'vertical'
+                        size_hint: .25, 1
+                        Label:
+                            size_hint: 1, .1
+                            text:
+                                ('[color=ffff00]1[/color]')
+                            markup: True
+                            # font_size: '15pt'
+                            font_size: sp(root.font_scaling*15)
+                        # Label:
+                        #     size_hint: 1, .1
+                        #     text:
+                        #         ('[color=ffff00]0[/color]')
+                        #     markup: True
+                        #     # font_size: '15pt'
+                        #     font_size: sp(root.font_scaling*15)
+                        Label:
+                            size_hint: 1, .9
+                            font_name: 'Adobe Kaiti Std.otf'
+                            text:
+                                ('[b][color=ff0000]乱绳[/color][/b]')
+                            markup: True
+                            # font_size: '55'
+                            font_size: sp(root.font_scaling*55)
+
+<CBoxLayout@BoxLayout+BackgroundColor>
+<CBoxLayoutRight@BoxLayout+BackgroundColorRight>
+
+<BackgroundColor@Widget>
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .9, .9
+    canvas.before:
+        Color:
+            rgba: .2, .3, .4, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundColorRight@Widget>
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    size_hint: .9, .9
+    canvas.before:
+        Color:
+            rgba: .22, .32, .42, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos

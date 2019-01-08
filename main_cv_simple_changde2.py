@@ -221,7 +221,7 @@ class MessRopeApp(App):
     def build(self):
         Window.minimum_width = WINDOW_MIN_WIDTH
         Window.minimum_height = WINDOW_MIN_HEIGHT
-        with open('./messropewin.kv', encoding='utf8') as f:
+        with open('./messropewinchangde.kv', encoding='utf8') as f:
             self.messropeWin = Builder.load_string(f.read())
         return self.messropeWin
 
