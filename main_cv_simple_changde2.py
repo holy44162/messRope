@@ -12,7 +12,9 @@ from kivy.uix.effectwidget import EffectWidget, EffectBase
 
 # import matlab.engine
 
-from pathlib import Path
+# from pathlib import Path
+
+from threading import Thread
 
 # from PIL import Image as ImagePillow
 
@@ -37,6 +39,43 @@ class DemoEffect(EffectWidget):
         self.effect_reference = EffectBase(glsl=effect_string)
         super(DemoEffect, self).__init__(*args, **kwargs)
 
+class WebcamVideoStream:
+    def __init__(self, src=0):
+        # initialize the video camera stream and read the first frame
+        # from the stream
+        self.stream = cv2.VideoCapture(src)
+        (self.grabbed, self.frame) = self.stream.read()
+
+        # initialize the variable used to indicate if the thread should
+        # be stopped
+        self.stopped = False
+
+    def start(self):
+        # start the thread to read frames from the video stream
+        Thread(target=self.update, args=()).start()
+        return self
+
+    def update(self):
+        # keep looping infinitely until the thread is stopped
+        while True:
+            # if the thread indicator variable is set, stop the thread
+            if self.stopped:
+                return
+
+            # otherwise, read the next frame from the stream
+            (self.grabbed, self.frame) = self.stream.read()
+            if not self.grabbed:
+                self.stream.set(0, 0)
+                print(self.stream)
+
+    def read(self):
+        # return the frame most recently read
+        return self.frame
+
+    def stop(self):
+        # indicate that the thread should be stopped
+        self.stopped = True
+
 class KivyCamera(Image):
 
     def __init__(self, capture = None, **kwargs):
@@ -53,11 +92,12 @@ class KivyCamera(Image):
         # self.rotateFilePathName = 'angle_rotate.txt'
 
         video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
-        self.capture = cv2.VideoCapture(video_files_path)
+        # self.capture = cv2.VideoCapture(video_files_path)
+        self.vs = WebcamVideoStream(video_files_path).start()
 
-        return_value, frame = self.capture.read()
-        if return_value:
-            self.w, self.h = frame.shape[1], frame.shape[0]
+        # return_value, frame = self.capture.read()
+        # if return_value:
+        #     self.w, self.h = frame.shape[1], frame.shape[0]
         #
         #     # bwRef = matlab.double([[1,2,3,4,5], [6,7,8,9,10]])
         #     # self.bwRef = np.zeros((self.h, self.w))
@@ -155,12 +195,14 @@ class KivyCamera(Image):
         #     # bestPara, dataMLOutput, GMModelOutput, epsilonOutput = self.eng.fun_loadMatFile('bestPara.mat', nargout=4)
         #     # print(epsilonOutput)
 
+        # Thread(target=self.updateFrames, args=()).start()
         self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 25)
-        self.readFrequency = 30
-        self.readCount = 0
-        self.polygonLineThickness = 3
-        self.messTag1 = 0
-        self.messTag2 = 0
+        # self.clockEvent = Clock.schedule_once(self.update, 5)
+        # self.readFrequency = 30
+        # self.readCount = 0
+        # self.polygonLineThickness = 3
+        # self.messTag1 = 0
+        # self.messTag2 = 0
 
     # def start(self, capture, fps=30):
     #     self.capture = capture
@@ -170,24 +212,49 @@ class KivyCamera(Image):
     #     Clock.unschedule_interval(self.update)
     #     self.capture = None
 
+    # def updateFrames(self):
+	# 	# keep looping infinitely until the thread is stopped
+    #     while True:
+    #         (self.grabbed, self.frame) = self.capture.read()
+    #         if not self.grabbed:
+    #             self.capture.set(0, 0)
+    #             print(self.capture)
+    #
+    # def readFrame(self):
+    #     return self.frame
+
     def update(self, dt):
-        return_value, frame = self.capture.read()
-        if return_value:
+        if self.vs.grabbed:
+            frame = self.vs.read()
+            # cv2.imshow("Frame", frame)
+            w, h = frame.shape[1], frame.shape[0]
             texture = self.texture
 
-            if not texture or texture.width != self.w or texture.height != self.h:
-                self.texture = texture = Texture.create(size=(self.w, self.h))
+            if not texture or texture.width != w or texture.height != h:
+                self.texture = texture = Texture.create(size=(w, h))
                 texture.flip_vertical()
             texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
             self.canvas.ask_update()
-        else:
-            self.capture.set(0, 0)
-            # Clock.unschedule(self.clockEvent)
-            print(self.capture)
-            # self.eng.simple(nargout=0)
-            # tf = self.eng.isprime(37)
-            # print(tf)
-            # self.capture = None
+        # while True:
+        #     frame = self.readFrame()
+        #     print(frame.shape)
+        #     # return_value, frame = self.capture.read()
+        #     # if return_value:
+        #     texture = self.texture
+        #
+        #     if not texture or texture.width != self.w or texture.height != self.h:
+        #         self.texture = texture = Texture.create(size=(self.w, self.h))
+        #         texture.flip_vertical()
+        #     texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
+        #     self.canvas.ask_update()
+        # # else:
+        # #     self.capture.set(0, 0)
+        # #     # Clock.unschedule(self.clockEvent)
+        # #     print(self.capture)
+        # #     # self.eng.simple(nargout=0)
+        # #     # tf = self.eng.isprime(37)
+        # #     # print(tf)
+        # #     # self.capture = None
 
 class MessRopeRoot(Screen):
 
@@ -226,11 +293,12 @@ class MessRopeApp(App):
         return self.messropeWin
 
     def on_stop(self):
-        if self.messropeWin.ids.qrcam.capture:
-            print(self.messropeWin.ids.qrcam.capture)
+        if self.messropeWin.ids.qrcam.vs.grabbed:
+            print(self.messropeWin.ids.qrcam.vs.stream)
             Clock.unschedule(self.messropeWin.ids.qrcam.clockEvent)
-            self.messropeWin.ids.qrcam.capture.release()
-            self.messropeWin.ids.qrcam.capture = None
+            self.messropeWin.ids.qrcam.vs.stream.release()
+            self.messropeWin.ids.qrcam.vs.stream = None
+            self.messropeWin.ids.qrcam.vs.stop()
 
 if __name__ == '__main__':
     MessRopeApp().run()
