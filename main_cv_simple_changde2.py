@@ -296,9 +296,9 @@ class MessRopeApp(App):
         if self.messropeWin.ids.qrcam.vs.grabbed:
             print(self.messropeWin.ids.qrcam.vs.stream)
             Clock.unschedule(self.messropeWin.ids.qrcam.clockEvent)
+            self.messropeWin.ids.qrcam.vs.stop()
             self.messropeWin.ids.qrcam.vs.stream.release()
             self.messropeWin.ids.qrcam.vs.stream = None
-            self.messropeWin.ids.qrcam.vs.stop()
 
 if __name__ == '__main__':
     MessRopeApp().run()
