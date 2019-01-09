@@ -10,7 +10,7 @@ MessRopeRoot:
         TabbedPanelItem:
             id: tab_fl
             font_name: 'Adobe Kaiti Std.otf'
-            text: '离线视频'
+            text: '实时视频'
             on_release: root.showcase_boxlayout(fl)
             FloatLayout:
                 CBoxLayout:
@@ -152,104 +152,104 @@ MessRopeRoot:
                 #             #     root.ids.myvideo.center_x+root.scalingWidth*150, root.ids.myvideo.center_y+root.scalingHeight*250, \
                 #             #     root.ids.myvideo.center_x+root.scalingWidth*100, root.ids.myvideo.center_y+root.scalingHeight*200
                 #             width: 2
-        TabbedPanelItem:
-            font_name: 'Adobe Kaiti Std.otf'
-            text: '实时视频'
-            on_release: root.showcase_boxlayout(box)
-            FloatLayout
-                CBoxLayout:
-                    id: box
-                    CBoxLayout:
-                        orientation: 'vertical'
-                        size_hint: .75, 1
-                        Label:
-                            size_hint: 1, .05
-                            font_name: 'Adobe Kaiti Std.otf'
-                            halign: 'center'
-                            valign: 'center'
-                            text:
-                                '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
-                            # text:
-                            #     """
-                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                            #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
-                            #     """
-                            markup: True
-                            # font_size: '50'
-                            font_size: sp(root.font_scaling*30)
-                        Label:
-                            size_hint: 1, .05
-                            font_name: 'Adobe Kaiti Std.otf'
-                            halign: 'center'
-                            valign: 'bottom'
-                            text:
-                                '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
-                            # text:
-                            #     """
-                            #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                            #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
-                            #     """
-                            markup: True
-                            # font_size: '50'
-                            font_size: sp(root.font_scaling*20)
-                        # Label:
-                        #     size_hint: 1, .1
-                        #     font_name: 'Adobe Kaiti Std.otf'
-                        #     halign: 'center'
-                        #     text:
-                        #         """
-                        #         [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
-                        #         [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
-                        #         """
-                        #     markup: True
-                        #     # font_size: '50'
-                        #     font_size: sp(root.font_scaling*31)
-                        Video:
-                            size_hint: 1, .81
-                            id: myvideoRight
-                            source: 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
-                            allow_stretch: True
-                            state: 'play'
-                            options: {'eos': 'loop'}
-                            allow_stretch: True
-                            keep_ratio: False
-                        CBoxLayout:
-                            size_hint: 1, .09
-                            Button:
-                                font_name: 'Adobe Kaiti Std.otf'
-                                text: "开始"
-                                # font_size: '25'
-                                font_size: sp(root.font_scaling*25)
-                            Button:
-                                font_name: 'Adobe Kaiti Std.otf'
-                                text: "停止"
-                                # font_size: '25'
-                                font_size: sp(root.font_scaling*25)
-                    CBoxLayoutRight:
-                        orientation: 'vertical'
-                        size_hint: .25, 1
-                        Label:
-                            size_hint: 1, .1
-                            text:
-                                ('[color=ffff00]1[/color]')
-                            markup: True
-                            # font_size: '15pt'
-                            font_size: sp(root.font_scaling*15)
-                        # Label:
-                        #     size_hint: 1, .1
-                        #     text:
-                        #         ('[color=ffff00]0[/color]')
-                        #     markup: True
-                        #     # font_size: '15pt'
-                        #     font_size: sp(root.font_scaling*15)
-                        Label:
-                            size_hint: 1, .9
-                            font_name: 'Adobe Kaiti Std.otf'
-                            text:
-                                ('[b][color=ff0000]乱绳[/color][/b]')
-                            markup: True
-                            # font_size: '55'
-                            font_size: sp(root.font_scaling*75)
+        # TabbedPanelItem:
+        #     font_name: 'Adobe Kaiti Std.otf'
+        #     text: '实时视频'
+        #     on_release: root.showcase_boxlayout(box)
+        #     FloatLayout
+        #         CBoxLayout:
+        #             id: box
+        #             CBoxLayout:
+        #                 orientation: 'vertical'
+        #                 size_hint: .75, 1
+        #                 Label:
+        #                     size_hint: 1, .05
+        #                     font_name: 'Adobe Kaiti Std.otf'
+        #                     halign: 'center'
+        #                     valign: 'center'
+        #                     text:
+        #                         '[b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]'
+        #                     # text:
+        #                     #     """
+        #                     #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+        #                     #     [sub][color=feffd5]卷扬乱绳自动识别系统[/color][/sub]
+        #                     #     """
+        #                     markup: True
+        #                     # font_size: '50'
+        #                     font_size: sp(root.font_scaling*30)
+        #                 Label:
+        #                     size_hint: 1, .05
+        #                     font_name: 'Adobe Kaiti Std.otf'
+        #                     halign: 'center'
+        #                     valign: 'bottom'
+        #                     text:
+        #                         '[b][color=feffd5]卷扬乱绳自动识别系统[/color][/b]'
+        #                     # text:
+        #                     #     """
+        #                     #     [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+        #                     #     [sup][color=feffd5]卷扬乱绳自动识别系统[/color][/sup]
+        #                     #     """
+        #                     markup: True
+        #                     # font_size: '50'
+        #                     font_size: sp(root.font_scaling*20)
+        #                 # Label:
+        #                 #     size_hint: 1, .1
+        #                 #     font_name: 'Adobe Kaiti Std.otf'
+        #                 #     halign: 'center'
+        #                 #     text:
+        #                 #         """
+        #                 #         [b][color=ffff2a]湖南中联重科智能技术有限公司[/color][/b]
+        #                 #         [sub][color=feffd5][size=35]卷扬乱绳自动识别系统[/size][/color][/sub]
+        #                 #         """
+        #                 #     markup: True
+        #                 #     # font_size: '50'
+        #                 #     font_size: sp(root.font_scaling*31)
+        #                 Video:
+        #                     size_hint: 1, .81
+        #                     id: myvideoRight
+        #                     source: 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        #                     allow_stretch: True
+        #                     state: 'play'
+        #                     options: {'eos': 'loop'}
+        #                     allow_stretch: True
+        #                     keep_ratio: False
+        #                 CBoxLayout:
+        #                     size_hint: 1, .09
+        #                     Button:
+        #                         font_name: 'Adobe Kaiti Std.otf'
+        #                         text: "开始"
+        #                         # font_size: '25'
+        #                         font_size: sp(root.font_scaling*25)
+        #                     Button:
+        #                         font_name: 'Adobe Kaiti Std.otf'
+        #                         text: "停止"
+        #                         # font_size: '25'
+        #                         font_size: sp(root.font_scaling*25)
+        #             CBoxLayoutRight:
+        #                 orientation: 'vertical'
+        #                 size_hint: .25, 1
+        #                 Label:
+        #                     size_hint: 1, .1
+        #                     text:
+        #                         ('[color=ffff00]1[/color]')
+        #                     markup: True
+        #                     # font_size: '15pt'
+        #                     font_size: sp(root.font_scaling*15)
+        #                 # Label:
+        #                 #     size_hint: 1, .1
+        #                 #     text:
+        #                 #         ('[color=ffff00]0[/color]')
+        #                 #     markup: True
+        #                 #     # font_size: '15pt'
+        #                 #     font_size: sp(root.font_scaling*15)
+        #                 Label:
+        #                     size_hint: 1, .9
+        #                     font_name: 'Adobe Kaiti Std.otf'
+        #                     text:
+        #                         ('[b][color=ff0000]乱绳[/color][/b]')
+        #                     markup: True
+        #                     # font_size: '55'
+        #                     font_size: sp(root.font_scaling*75)
 
 <CBoxLayout@BoxLayout+BackgroundColor>
 <CBoxLayoutRight@BoxLayout+BackgroundColorRight>

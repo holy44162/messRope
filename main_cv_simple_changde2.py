@@ -22,7 +22,7 @@ from sklearn.externals import joblib
 from read_feature_class import read_feature_class
 from multhread_predict_class import multhread_predict_class
 
-dp = dq([0, 0, 0], maxlen=3)
+dp = dq([0, 0], maxlen=2)
 read_data = read_feature_class(1,1)
 predict_data = multhread_predict_class(1)
 clf = joblib.load(r"d:\backup\project\changde_winding_code3\changde_hog_ocsvm_train_model_v1.m")
@@ -98,11 +98,16 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/rect_anno.txt'
         # self.rotateFilePathName = 'm:/files/files/phd/functions/messRopeFunctions/angle_rotate.txt'
 
-        # self.rectFilePathName = 'rect_anno.txt'
+        rectFilePathName = 'rect_anno_changde2.txt'
         # self.rotateFilePathName = 'angle_rotate.txt'
+        with open(rectFilePathName) as fpRect:
+            strRect = fpRect.readline().rstrip('\n')
+            strRect = strRect.split('\t')
+            self.iRect = [int(strRect[0]),int(strRect[1]),int(strRect[2]),int(strRect[3])]
+            print(self.iRect)
 
-        # video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
-        video_files_path = 'rtsp://admin:cl123456@192.168.1.120/Streaming/Channels/201'
+        video_files_path = 'd:/data_seq/changdeWinding/winding2/00000000051000100(1).mp4'
+        # video_files_path = 'rtsp://admin:cl123456@192.168.1.110/Streaming/Channels/201'
         # self.capture = cv2.VideoCapture(video_files_path)
         self.vs = WebcamVideoStream(video_files_path).start()
 
@@ -237,12 +242,14 @@ class KivyCamera(Image):
     def update(self, dt):
         if self.vs.grabbed:
             frame = self.vs.read()
+            crop_frame = frame[self.iRect[1]:self.iRect[1]+self.iRect[3], \
+            self.iRect[0]:self.iRect[0]+self.iRect[2]]
             # add predict code here
             tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)
             line1 = '[color=ffff00]' + str(tagMess) + '[/color]'
             App.get_running_app().root.ids.holyLabel1.text = line1
             dp.appendleft(tagMess)
-            if np.sum(dp) == 3:
+            if np.sum(dp) == 2:
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=ff0000]乱绳[/color][/b]'
                 App.get_running_app().root.ids.holyEffect.effects = \
@@ -264,13 +271,14 @@ class KivyCamera(Image):
             # end of addition
 
             # cv2.imshow("Frame", frame)
-            w, h = frame.shape[1], frame.shape[0]
+            # w, h = frame.shape[1], frame.shape[0]
+            w, h = crop_frame.shape[1], crop_frame.shape[0]
             texture = self.texture
 
             if not texture or texture.width != w or texture.height != h:
                 self.texture = texture = Texture.create(size=(w, h))
                 texture.flip_vertical()
-            texture.blit_buffer(frame.tobytes(), colorfmt='bgr')
+            texture.blit_buffer(crop_frame.tobytes(), colorfmt='bgr')
             self.canvas.ask_update()
         # while True:
         #     frame = self.readFrame()
