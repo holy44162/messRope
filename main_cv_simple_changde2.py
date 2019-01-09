@@ -17,6 +17,16 @@ from kivy.uix.effectwidget import EffectWidget, EffectBase
 from threading import Thread
 
 # from PIL import Image as ImagePillow
+from collections import deque as dq
+from sklearn.externals import joblib
+from read_feature_class import read_feature_class
+from multhread_predict_class import multhread_predict_class
+
+dp = dq([0, 0, 0], maxlen=3)
+read_data = read_feature_class(1,1)
+predict_data = multhread_predict_class(1)
+clf = joblib.load(r"d:\backup\project\changde_winding_code3\changde_hog_ocsvm_train_model_v1.m")
+pca1 = joblib.load(r"d:\backup\project\changde_winding_code3\changde_hog_pca1_model_v1.m")
 
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
@@ -226,6 +236,32 @@ class KivyCamera(Image):
     def update(self, dt):
         if self.vs.grabbed:
             frame = self.vs.read()
+            # add predict code here
+            tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)
+            line1 = '[color=ffff00]' + str(tagMess) + '[/color]'
+            App.get_running_app().root.ids.holyLabel1.text = line1
+            dp.appendleft(tagMess)
+            if np.sum(dp) == 3:
+                App.get_running_app().root.ids.holyLabelMess.text = \
+                '[b][color=ff0000]乱绳[/color][/b]'
+                App.get_running_app().root.ids.holyEffect.effects = \
+                [App.get_running_app().root.ids.holyEffect.effect_reference]
+            else:
+                App.get_running_app().root.ids.holyLabelMess.text = \
+                '[b][color=00ff00]正常[/color][/b]'
+
+            # if tagMess == 1:
+            #     App.get_running_app().root.ids.holyLabelMess.text = \
+            #     '[b][color=ff0000]乱绳[/color][/b]'
+            #     App.get_running_app().root.ids.holyEffect.effects = \
+            #     [App.get_running_app().root.ids.holyEffect.effect_reference]
+            #     # App.get_running_app().root.ids.holyLabelMess.font_size = \
+            #     # App.get_running_app().root.font_scaling*60
+            # else:
+            #     App.get_running_app().root.ids.holyLabelMess.text = \
+            #     '[b][color=00ff00]正常[/color][/b]'
+            # end of addition
+
             # cv2.imshow("Frame", frame)
             w, h = frame.shape[1], frame.shape[0]
             texture = self.texture
