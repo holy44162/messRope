@@ -101,7 +101,8 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'rect_anno.txt'
         # self.rotateFilePathName = 'angle_rotate.txt'
 
-        video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        # video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        video_files_path = 'd:/data_seq/changdeWinding/winding2/00000000051000100(1).mp4'
         # self.capture = cv2.VideoCapture(video_files_path)
         # self.vs = WebcamVideoStream(video_files_path).start()
 
@@ -249,7 +250,7 @@ class KivyCamera(Image):
             line1 = '[color=ffff00]' + str(tagMess) + '[/color]'
             App.get_running_app().root.ids.holyLabel1.text = line1
             dp.appendleft(tagMess)
-            if np.sum(dp) > 4:
+            if np.sum(dp) > 5:
                 # print('乱绳')
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=ff0000]乱绳[/color][/b]'

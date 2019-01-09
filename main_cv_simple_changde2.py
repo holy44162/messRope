@@ -101,7 +101,8 @@ class KivyCamera(Image):
         # self.rectFilePathName = 'rect_anno.txt'
         # self.rotateFilePathName = 'angle_rotate.txt'
 
-        video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        # video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        video_files_path = 'rtsp://admin:cl123456@192.168.1.120/Streaming/Channels/201'
         # self.capture = cv2.VideoCapture(video_files_path)
         self.vs = WebcamVideoStream(video_files_path).start()
 
