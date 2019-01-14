@@ -22,11 +22,20 @@ from sklearn.externals import joblib
 from read_feature_class import read_feature_class
 from multhread_predict_class import multhread_predict_class
 
-dp = dq([0, 0], maxlen=2)
-read_data = read_feature_class(1,1)
-predict_data = multhread_predict_class(1)
-clf = joblib.load(r"d:\backup\project\changde_winding_code3\changde_hog_ocsvm_train_model_v1.m")
-pca1 = joblib.load(r"d:\backup\project\changde_winding_code3\changde_hog_pca1_model_v1.m")
+dp = dq([0, 0, 0, 0, 0, 0, 0, 0], maxlen=8)
+
+# read_data = read_feature_class(1,1)
+# predict_data = multhread_predict_class(1)
+read_data = read_feature_class(2,1)
+predict_data = multhread_predict_class(2)
+# clf = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_ocsvm_train_model_v1.m")
+# clf = joblib.load(r"d:\backup\project\changde_winding_code4_gabor\changde_gabor_ocsvm_train_model_v1.m")
+# clf = joblib.load(r"d:\backup\project\Winding_system_for_changde5_hog\changde_hog_ocsvm_train_model_v2.m")
+clf = joblib.load(r"d:\backup\project\Winding_system_for_changde5_gabor\changde_gabor_ocsvm_train_model_v2.m")
+# pca1 = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_pca1_model_v1.m")
+# pca1 = joblib.load(r"d:\backup\project\changde_winding_code4_gabor\changde_gabor_pca1_model_v1.m")
+# pca1 = joblib.load(r"d:\backup\project\Winding_system_for_changde5_hog\changde_hog_pca1_model_v2.m")
+pca1 = joblib.load(r"d:\backup\project\Winding_system_for_changde5_gabor\changde_gabor_pca1_model_v2.m")
 
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
@@ -106,8 +115,10 @@ class KivyCamera(Image):
             self.iRect = [int(strRect[0]),int(strRect[1]),int(strRect[2]),int(strRect[3])]
             print(self.iRect)
 
-        video_files_path = 'd:/data_seq/changdeWinding/winding2/00000000051000100(1).mp4'
-        # video_files_path = 'rtsp://admin:cl123456@192.168.1.110/Streaming/Channels/201'
+        # video_files_path = 'd:/data_seq/changdeWinding/winding2/00000000051000100(1).mp4'
+        # video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
+        # video_files_path = r'd:\data\建起常德新工业园Winding_data\190109\winding2\00000000081000000(1)_190109.mp4'
+        video_files_path = 'rtsp://admin:cl123456@192.168.1.110/Streaming/Channels/201'
         # self.capture = cv2.VideoCapture(video_files_path)
         self.vs = WebcamVideoStream(video_files_path).start()
 
@@ -213,6 +224,7 @@ class KivyCamera(Image):
 
         # Thread(target=self.updateFrames, args=()).start()
         self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 25)
+        # self.iDuration = 0;
         # self.clockEvent = Clock.schedule_once(self.update, 5)
         # self.readFrequency = 30
         # self.readCount = 0
@@ -245,11 +257,13 @@ class KivyCamera(Image):
             crop_frame = frame[self.iRect[1]:self.iRect[1]+self.iRect[3], \
             self.iRect[0]:self.iRect[0]+self.iRect[2]]
             # add predict code here
-            tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)
+            tagMess,_,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)#gabor
+            # tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)#hog
+
             line1 = '[color=ffff00]' + str(tagMess) + '[/color]'
             App.get_running_app().root.ids.holyLabel1.text = line1
             dp.appendleft(tagMess)
-            if np.sum(dp) == 2:
+            if np.sum(dp) == 8:
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=ff0000]乱绳[/color][/b]'
                 App.get_running_app().root.ids.holyEffect.effects = \

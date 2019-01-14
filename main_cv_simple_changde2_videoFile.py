@@ -22,11 +22,17 @@ from sklearn.externals import joblib
 from read_feature_class import read_feature_class
 from multhread_predict_class import multhread_predict_class
 
-dp = dq([0, 0], maxlen=2)
+dp = dq([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], maxlen=11)
+# read_data = read_feature_class(1,1)
+# predict_data = multhread_predict_class(1)
 read_data = read_feature_class(1,1)
 predict_data = multhread_predict_class(1)
-clf = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_ocsvm_train_model_v1.m")
-pca1 = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_pca1_model_v1.m")
+# clf = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_ocsvm_train_model_v1.m")
+# clf = joblib.load(r"d:\backup\project\changde_winding_code4_gabor\changde_gabor_ocsvm_train_model_v1.m")
+clf = joblib.load(r"d:\backup\project\Winding_system_for_changde5_hog\changde_hog_ocsvm_train_model_v2.m")
+# pca1 = joblib.load(r"d:\backup\project\changde_winding_code3_videoFile\changde_hog_pca1_model_v1.m")
+# pca1 = joblib.load(r"d:\backup\project\changde_winding_code4_gabor\changde_gabor_pca1_model_v1.m")
+pca1 = joblib.load(r"d:\backup\project\Winding_system_for_changde5_hog\changde_hog_pca1_model_v2.m")
 
 WINDOW_MIN_WIDTH = 800
 WINDOW_MIN_HEIGHT = 600
@@ -218,7 +224,7 @@ class KivyCamera(Image):
         #     # print(epsilonOutput)
 
         # Thread(target=self.updateFrames, args=()).start()
-        self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 25)
+        self.clockEvent = Clock.schedule_interval(self.update, 1.0 / 10)
         # self.clockEvent = Clock.schedule_once(self.update, 5)
         # self.readFrequency = 30
         # self.readCount = 0
@@ -254,11 +260,13 @@ class KivyCamera(Image):
             crop_frame = frame[self.iRect[1]:self.iRect[1]+self.iRect[3], \
             self.iRect[0]:self.iRect[0]+self.iRect[2]]
             # add predict code here
-            tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)
+            # tagMess,_,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)#gabor
+            tagMess,_ = predict_data.chooseFeatureOutput(frame,read_data,clf,pca1)#hog
+
             line1 = '[color=ffff00]' + str(tagMess) + '[/color]'
             App.get_running_app().root.ids.holyLabel1.text = line1
             dp.appendleft(tagMess)
-            if np.sum(dp) == 2:
+            if np.sum(dp) > 1:
                 # print('乱绳')
                 App.get_running_app().root.ids.holyLabelMess.text = \
                 '[b][color=ff0000]乱绳[/color][/b]'

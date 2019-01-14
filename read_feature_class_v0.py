@@ -37,7 +37,7 @@ class read_feature_class:
         self.flag = True
         self.choice = choice
         self.pretreatment = pretreatment
-        self.gabor_kernel = self.__gabor_kernel(13,6)
+        self.gabor_kernel = self.__gabor_kernel(17,6)
         self.kernel0 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,3))
         self.kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT,(4,3))
     
@@ -47,9 +47,9 @@ class read_feature_class:
         获取gabor核
         '''
         filters = []
-        for lamda in [5]:
-            for length_width_ratio in [0.2]:         
-                for theta in np.linspace(-np.pi*1/6, np.pi*1/6, num):
+        for lamda in [11]:
+             for length_width_ratio in [1]:         
+                 for theta in [0]:#np.linspace(-np.pi*1/6, np.pi*1/6, num):
     #                 for ksize in range(ksize-2,ksize,2):
                      kern = cv2.getGaborKernel((ksize, ksize), #核size
                            2*length_width_ratio,     #高斯函数的标准差
@@ -90,9 +90,10 @@ class read_feature_class:
         else:
             '''强预处理'''
             gray_img = self.__uniformHandling(img)
-            adap_img = exposure.equalize_adapthist(gray_img,(60,60))
+            adap_img = exposure.equalize_adapthist(gray_img,(120,120))
             adap_img = exposure.equalize_adapthist(adap_img,(32,32))
-            adap_img = exposure.equalize_adapthist(adap_img,(16,16))
+            adap_img = exposure.equalize_adapthist(adap_img,(4,8))
+            adap_img = exposure.equalize_adapthist(adap_img,(32,32))
         
         return adap_img
     
@@ -139,21 +140,15 @@ class read_feature_class:
             self.flag = False
             self.__show(std_img)
         
-#        imgss = cv2.filter2D(std_img, cv2.CV_8UC3,self.gabor_kernel[0])
-#        dilate_img = cv2.dilate(imgss,self.kernel1)
-#        dilate_img = cv2.morphologyEx(dilate_img,cv2.MORPH_CLOSE,self.kernel1)
-#        down_img = cv2.pyrDown(dilate_img)
-            
-        img_sum = np.zeros(std_img.shape,np.int32)
-        for kernel in self.gabor_kernel:
-            img_ga1 = cv2.filter2D(std_img, cv2.CV_8UC3, kernel)
-            img_sum = img_ga1 + img_sum
-        down_img = np.uint8(img_sum)
+        imgss = cv2.filter2D(std_img, cv2.CV_8UC3,self.gabor_kernel[0])
+        dilate_img = cv2.dilate(imgss,self.kernel1)
+        dilate_img = cv2.morphologyEx(dilate_img,cv2.MORPH_CLOSE,self.kernel1)
+        down_img = cv2.pyrDown(dilate_img)
 
         hog_feature = ft.hog(down_img,
               orientations=9,  # number of binsa
-              pixels_per_cell=(16,16), # pixel per cell
-              cells_per_block=(3,3), # cells per blcok
+              pixels_per_cell=(8,8), # pixel per cell
+              cells_per_block=(2,2), # cells per blcok
               block_norm = 'L1', #  block norm : str {‘L1’, ‘L1-sqrt’, ‘L2’, ‘L2-Hys’}
               transform_sqrt = True, # power law compression (also known as gamma correction)
               feature_vector=True, # flatten the final vectors
@@ -161,7 +156,7 @@ class read_feature_class:
     
         gbh_features = np.reshape(hog_feature,(len(hog_feature),1))
         
-        return gbh_features,down_img
+        return gbh_features,dilate_img
     
     
     def __chooseFeatrue(self,predict_flag,img):
