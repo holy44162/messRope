@@ -118,7 +118,8 @@ class KivyCamera(Image):
         # video_files_path = 'd:/data_seq/changdeWinding/winding2/00000000051000100(1).mp4'
         # video_files_path = 'd:/data_seq/changdeWinding/winding2/test_changde2.mp4'
         # video_files_path = r'd:\data\建起常德新工业园Winding_data\190109\winding2\00000000081000000(1)_190109.mp4'
-        video_files_path = 'rtsp://admin:cl123456@192.168.1.110/Streaming/Channels/201'
+        # video_files_path = 'rtsp://admin:cl123456@192.168.1.110/Streaming/Channels/201'
+        video_files_path = r'd:\data\建起常德新工业园Winding_data\190112\winding2\00000000053000000(1).mp4'
         # self.capture = cv2.VideoCapture(video_files_path)
         self.vs = WebcamVideoStream(video_files_path).start()
 
